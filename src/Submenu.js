@@ -1,34 +1,34 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useGlobalConext } from './context'
+import {useGlobalContext} from './context'
 
 const Submenu = () => {
-    const [columns ,setColums] = useState("col-2");
-    const {isSubmenuOpen, localtion,page:{page, links},} = useGlobalConext();
-    const container = useRef(null)
+    const {isSubmenuOpen,page:{page, links}, location} = useGlobalContext();
+    const container = useRef(null);
+    const [columns, setColumns] = useState('col-2')
 
     useEffect(()=>{
-        setColums("col-2")
+        setColumns('col-2')
         const submenu = container.current;
-        const{center,bottom} = localtion;
-        submenu.style.left = `${center}px`
-        submenu.style.top = `${bottom}px`
-        if (links.length === 3){
-            setColums("col-3");
+        const {center, bottom} = location;
+        submenu.style.left=`${center}px`;
+        submenu.style.top=`${bottom}px`;
+        if(links.length === 3){
+            setColumns('col-3')
         }
-        if (links.length > 3){
-            setColums("col-4");
+        if(links.length > 3){
+            setColumns('col-4')
         }
-    },[localtion,links])
+    })
+
   return <aside className={`${isSubmenuOpen ? "submenu show" : "submenu"}`} ref={container}>
       <h4>{page}</h4>
       <div className={`submenu-center ${columns}`}>
-          {links.map((link, index)=>{
-              const{label, icon, url} = link;
+          {links.map((item, index)=>{
+              const {label, icon, url} = item;
               return <a key={index} href={url}>
                   {icon}
                   {label}
-                  </a> 
-                  
+              </a>
           })}
       </div>
   </aside>
